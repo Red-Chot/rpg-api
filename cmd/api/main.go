@@ -1,5 +1,7 @@
 package main
 
+// imports
+
 import (
 	"encoding/json"
 	"fmt"
@@ -35,9 +37,13 @@ type Response struct {
 	Message string `json:"message"`
 }
 
+// variavies globais
+
 var players []PlayerRequest
 var enemies []Enemy
 var battles []Battle
+
+// adding players
 
 func AddPlayer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -85,11 +91,15 @@ func AddPlayer(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(player)
 }
 
+// Loading players, retorna lista de jogadores
+
 func LoadPlayers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(players)
 }
+
+// Deleta players da lista
 
 func DeletePlayer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -108,6 +118,8 @@ func DeletePlayer(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(Response{Message: "Player nickname not found"})
 }
 
+// retorna o player de acordo com o nome
+
 func LoadPlayerByNickname(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -124,6 +136,8 @@ func LoadPlayerByNickname(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	json.NewEncoder(w).Encode(Response{Message: "Player nickname not found"})
 }
+
+//valida dados e nickname de jogador
 
 func SavePlayer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -164,6 +178,8 @@ func SavePlayer(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(Response{Message: "Player nickname not found"})
 }
 
+// Gera valores de Life e Attack, e captura de nome do Enemy
+
 func AddEnemy(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -197,11 +213,15 @@ func AddEnemy(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(enemy)
 }
 
+// retorna lista de inimigos
+
 func LoadEnemies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(enemies)
 }
+
+// Pega nickname para deletar
 
 func DeleteEnemy(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -220,6 +240,8 @@ func DeleteEnemy(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(Response{Message: "Enemy nickname not found"})
 }
 
+// carregar player baseado no nome utilizado
+
 func LoadEnemyByNickname(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -236,6 +258,8 @@ func LoadEnemyByNickname(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	json.NewEncoder(w).Encode(Response{Message: "Enemy nickname not found"})
 }
+
+//Salva Enemy e valida se ele existe
 
 func SaveEnemy(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -275,6 +299,8 @@ func SaveEnemy(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusBadRequest)
 	json.NewEncoder(w).Encode(Response{Message: "Enemy nickname not found"})
 }
+
+//Criação da batalha capturando enemy e player
 
 func CreateBattle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -347,11 +373,16 @@ func CreateBattle(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(battles)
 }
 
+// carregar as batalhas antigas
+
 func LoadBattles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(battles)
 }
+
+// função principal, identificação de rotas
+// mex utilizado para definição de rotas
 
 func main() {
 	r := mux.NewRouter()
